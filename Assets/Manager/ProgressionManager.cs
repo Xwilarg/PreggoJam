@@ -1,5 +1,7 @@
 using PreggoJam.SO;
+using System.Linq;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace PreggoJam.Manager
 {
@@ -20,6 +22,11 @@ namespace PreggoJam.Manager
         {
             Instance = this;
             _progressionUI.localScale = new Vector3(0f, 1f, 1f);
+
+            if (!SceneManager.GetAllScenes().Any(x => x.name == "Map"))
+            {
+                SceneManager.LoadScene("Map", LoadSceneMode.Additive);
+            }
         }
 
         public void GrabPotion()
