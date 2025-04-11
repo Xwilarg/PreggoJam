@@ -1,3 +1,4 @@
+using PreggoJam.Manager;
 using PreggoJam.SO;
 using System.Collections;
 using UnityEngine;
@@ -29,6 +30,15 @@ namespace PreggoJam.Player
             // Debug jump box
             Gizmos.color = Color.blue;
             Gizmos.DrawWireCube(transform.position - Vector3.up, new Vector3(1f, .2f, 1f));
+        }
+
+        private void OnTriggerEnter2D(Collider2D collision)
+        {
+            if (collision.CompareTag("Potion"))
+            {
+                ProgressionManager.Instance.GrabPotion();
+                Destroy(collision.gameObject);
+            }
         }
 
         private IEnumerator PlayJumpCooldown()
