@@ -718,6 +718,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _playerTransform: {fileID: 669540512}
   _houseTransform: {fileID: 944175185}
+  _cam: {fileID: 1513091942}
 --- !u!1 &1275639484
 GameObject:
   m_ObjectHideFlags: 0
