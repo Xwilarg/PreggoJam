@@ -15,6 +15,10 @@ namespace PreggoJam.Manager
         [SerializeField]
         private RectTransform _progressionUI;
 
+        [SerializeField]
+        private GameObject _warningText;
+        public GameObject WarningText => _warningText;
+
         private int _levelIndex;
         private int _potionCaught;
 
@@ -22,6 +26,7 @@ namespace PreggoJam.Manager
         {
             Instance = this;
             _progressionUI.localScale = new Vector3(0f, 1f, 1f);
+            WarningText.SetActive(false);
 
             if (!SceneManager.GetAllScenes().Any(x => x.name == "Map"))
             {

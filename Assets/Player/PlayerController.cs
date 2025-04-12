@@ -53,6 +53,22 @@ namespace PreggoJam.Player
             }
         }
 
+        private void OnCollisionEnter2D(Collision2D collision)
+        {
+            if (collision.collider.CompareTag("House"))
+            {
+                ProgressionManager.Instance.WarningText.SetActive(true);
+            }
+        }
+
+        private void OnCollisionExit2D(Collision2D collision)
+        {
+            if (collision.collider.CompareTag("House"))
+            {
+                ProgressionManager.Instance.WarningText.SetActive(false);
+            }
+        }
+
         private IEnumerator PlayJumpCooldown()
         {
             _canJump = false;
