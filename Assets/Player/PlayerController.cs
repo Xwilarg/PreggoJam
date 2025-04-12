@@ -25,11 +25,23 @@ namespace PreggoJam.Player
             _rb.linearVelocity = new Vector2(_movX * _info.Speed, _rb.linearVelocity.y);
         }
 
+        private void Update()
+        {
+            if (transform.position.y < -10f)
+            {
+                transform.position = Vector2.zero;
+                _rb.linearVelocityY = 0f;
+            }
+        }
+
         private void OnDrawGizmos()
         {
             // Debug jump box
             Gizmos.color = Color.blue;
             Gizmos.DrawWireCube(transform.position - Vector3.up, new Vector3(1f, .2f, 1f));
+
+            Gizmos.color = Color.red;
+            Gizmos.DrawLine(new Vector2(-500f, -10f), new Vector2(500f, -10f));
         }
 
         private void OnTriggerEnter2D(Collider2D collision)
