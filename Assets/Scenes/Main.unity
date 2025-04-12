@@ -716,6 +716,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f59b2889ca38e414dba4100ccc22eddf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _playerTransform: {fileID: 669540512}
+  _houseTransform: {fileID: 944175185}
 --- !u!1 &1275639484
 GameObject:
   m_ObjectHideFlags: 0

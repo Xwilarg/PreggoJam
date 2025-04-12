@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Linq;
+using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -8,6 +9,12 @@ namespace PreggoJam.Manager
     public class GameManager : MonoBehaviour
     {
         public static GameManager Instance { private set; get; }
+
+        [SerializeField]
+        private Transform _playerTransform, _houseTransform;
+
+        [SerializeField]
+        private CinemachineCamera _cam;
 
         private void Awake()
         {
@@ -19,7 +26,17 @@ namespace PreggoJam.Manager
             }
         }
 
-        public bool CanPlay { set; get; } = true;
+        private bool _canPlay = true;
+        public bool CanPlay
+        {
+            set
+            {
+                _canPlay = value;
+                _playerTransform.gameObject.SetActive(value);
+                _cam.Target.TrackingTarget = _canPlay ? _playerTransform : _houseTransform;
+            }
+            get => _canPlay;
+        }
 
         public void ReloadMap()
         {

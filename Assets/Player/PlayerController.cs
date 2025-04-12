@@ -59,8 +59,8 @@ namespace PreggoJam.Player
             {
                 if (ProgressionManager.Instance.IsProgressionFull)
                 {
-                    GameManager.Instance.CanPlay = false;
                     transform.position = Vector2.zero;
+                    GameManager.Instance.CanPlay = false;
                 }
                 else
                 {
