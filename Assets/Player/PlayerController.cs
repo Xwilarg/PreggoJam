@@ -22,7 +22,7 @@ namespace PreggoJam.Player
 
         private void FixedUpdate()
         {
-            _rb.linearVelocity = new Vector2(_movX * _info.Speed, _rb.linearVelocity.y);
+            _rb.linearVelocity = GameManager.Instance.CanPlay ? new Vector2(_movX * _info.Speed, _rb.linearVelocity.y) : Vector2.up * _rb.linearVelocity.y;
         }
 
         private void Update()
@@ -57,7 +57,15 @@ namespace PreggoJam.Player
         {
             if (collision.collider.CompareTag("House"))
             {
-                ProgressionManager.Instance.WarningText.SetActive(true);
+                if (ProgressionManager.Instance.IsProgressionFull)
+                {
+                    GameManager.Instance.CanPlay = false;
+                    transform.position = Vector2.zero;
+                }
+                else
+                {
+                    ProgressionManager.Instance.WarningText.SetActive(true);
+                }
             }
         }
 
@@ -85,7 +93,7 @@ namespace PreggoJam.Player
 
         public void OnJump(InputAction.CallbackContext value)
         {
-            if (value.phase == InputActionPhase.Started && _canJump)
+            if (value.phase == InputActionPhase.Started && _canJump && GameManager.Instance.CanPlay)
             {
                 // Check for floor under player
                 var under = Physics2D.OverlapBox((Vector2)transform.position - Vector2.up, new Vector2(1f, .2f), 0f, LayerMask.GetMask("Map"));

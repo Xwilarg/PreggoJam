@@ -1,7 +1,5 @@
 using PreggoJam.SO;
-using System.Linq;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 namespace PreggoJam.Manager
 {
@@ -19,6 +17,8 @@ namespace PreggoJam.Manager
         private GameObject _warningText;
         public GameObject WarningText => _warningText;
 
+        public bool IsProgressionFull => _potionCaught >= _info.Levels[_levelIndex].ObjectiveCount;
+
         private int _levelIndex;
         private int _potionCaught;
 
@@ -27,11 +27,6 @@ namespace PreggoJam.Manager
             Instance = this;
             _progressionUI.localScale = new Vector3(0f, 1f, 1f);
             WarningText.SetActive(false);
-
-            if (!SceneManager.GetAllScenes().Any(x => x.name == "Map"))
-            {
-                SceneManager.LoadScene("Map", LoadSceneMode.Additive);
-            }
         }
 
         public void GrabPotion()

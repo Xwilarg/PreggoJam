@@ -666,6 +666,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1022761882}
   - component: {fileID: 1022761883}
+  - component: {fileID: 1022761884}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -703,6 +704,18 @@ MonoBehaviour:
   _info: {fileID: 11400000, guid: dcedffa0707360c408ecf28b2ef26576, type: 2}
   _progressionUI: {fileID: 1320464166}
   _warningText: {fileID: 1417511089}
+--- !u!114 &1022761884
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1022761881}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f59b2889ca38e414dba4100ccc22eddf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1275639484
 GameObject:
   m_ObjectHideFlags: 0
