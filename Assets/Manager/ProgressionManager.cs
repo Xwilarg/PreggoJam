@@ -34,5 +34,12 @@ namespace PreggoJam.Manager
             _potionCaught++;
             _progressionUI.localScale = new Vector3(_potionCaught / (float)_info.Levels[_levelIndex].ObjectiveCount, 1f, 1f);
         }
+
+        public void NextLevel()
+        {
+            _levelIndex++;
+            _potionCaught = 0;
+            _progressionUI.localScale = new Vector3(0f, 1f, 1f);
+        }
     }
 }
