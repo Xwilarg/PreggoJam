@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Potion
   - House
+  - PlayerReset
   layers:
   - Default
   - TransparentFX

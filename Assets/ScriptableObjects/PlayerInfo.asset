@@ -14,4 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Speed: 10
   JumpForce: 30
+  ExternalForce: 2
+  AirtimeControl: 0.5
   JumpCooldown: 0.2

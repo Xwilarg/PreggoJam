@@ -3,6 +3,7 @@ using PreggoJam.SO;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Timeline;
 
 namespace PreggoJam.Player
 {
@@ -15,6 +16,8 @@ namespace PreggoJam.Player
         private float _movX;
         private bool _canJump = true;
 
+        private float _externalX;
+
         private void Awake()
         {
             _rb = GetComponent<Rigidbody2D>();
@@ -22,23 +25,37 @@ namespace PreggoJam.Player
 
         private void FixedUpdate()
         {
-            _rb.linearVelocity = GameManager.Instance.CanPlay ? new Vector2(_movX * _info.Speed, _rb.linearVelocity.y) : Vector2.up * _rb.linearVelocity.y;
+            float xVel;
+            if (CanJump)
+            {
+                xVel = _movX;
+            }
+            else // Air control
+            {
+                var modXDir = _rb.linearVelocity.normalized.x;
+                if (modXDir > 0f) modXDir = 1f;
+                else if (modXDir < 0f) modXDir = -1f;
+                xVel = (_movX * _info.AirtimeControl) + (modXDir * (1 - _info.AirtimeControl));
+            }
+            _rb.linearVelocity = GameManager.Instance.CanPlay ? new Vector2((xVel + (_externalX * _info.ExternalForce)) * _info.Speed, _rb.linearVelocity.y) : Vector2.up * _rb.linearVelocity.y;
         }
 
         private void Update()
         {
             if (transform.position.y < -10f)
             {
-                transform.position = Vector2.zero;
-                _rb.linearVelocityY = 0f;
+                ResetPlayer();
             }
+            if (_externalX > 0f) _externalX = Mathf.Clamp(_externalX - Time.deltaTime / 2f, 0f, _externalX);
+            else _externalX = Mathf.Clamp(_externalX + Time.deltaTime / 2f, _externalX, 0f);
         }
 
         private void OnDrawGizmos()
         {
             // Debug jump box
-            Gizmos.color = Color.blue;
-            Gizmos.DrawWireCube(transform.position - Vector3.up, new Vector3(1f, .2f, 1f));
+            Gizmos.color = CanJump ? Color.blue : Color.red; Gizmos.DrawWireCube(transform.position - Vector3.up, new Vector3(.75f, .2f, 1f));
+            Gizmos.color = CanWallJumpLeft ? Color.blue : Color.red; Gizmos.DrawWireCube(transform.position + Vector3.right * -.5f, new Vector3(.2f, .75f, 1f));
+            Gizmos.color = CanWallJumpRight ? Color.blue : Color.red; Gizmos.DrawWireCube(transform.position + Vector3.right * .5f, new Vector3(.2f, .75f, 1f));
 
             Gizmos.color = Color.red;
             Gizmos.DrawLine(new Vector2(-500f, -10f), new Vector2(500f, -10f));
@@ -59,13 +76,17 @@ namespace PreggoJam.Player
             {
                 if (ProgressionManager.Instance.IsProgressionFull)
                 {
-                    transform.position = Vector2.zero;
+                    ResetPlayer();
                     GameManager.Instance.CanPlay = false;
                 }
                 else
                 {
                     ProgressionManager.Instance.WarningText.SetActive(true);
                 }
+            }
+            else if (collision.gameObject.CompareTag("PlayerReset"))
+            {
+                _externalX = 0f;
             }
         }
 
@@ -76,6 +97,16 @@ namespace PreggoJam.Player
                 ProgressionManager.Instance.WarningText.SetActive(false);
             }
         }
+
+        private void ResetPlayer()
+        {
+            transform.position = Vector2.zero;
+            _externalX = 0f;
+        }
+
+        private bool CanJump => Physics2D.OverlapBox((Vector2)transform.position - Vector2.up, new Vector2(.75f, .2f), 0f, LayerMask.GetMask("Map")) != null;
+        private bool CanWallJumpLeft => Physics2D.OverlapBox((Vector2)transform.position - Vector2.right * .5f, new Vector3(.2f, .75f, 1f), 0f, LayerMask.GetMask("Map")) != null;
+        private bool CanWallJumpRight => Physics2D.OverlapBox((Vector2)transform.position + Vector2.right * .5f, new Vector3(.2f, .75f, 1f), 0f, LayerMask.GetMask("Map")) != null;
 
         private IEnumerator PlayJumpCooldown()
         {
@@ -96,10 +127,23 @@ namespace PreggoJam.Player
             if (value.phase == InputActionPhase.Started && _canJump && GameManager.Instance.CanPlay)
             {
                 // Check for floor under player
-                var under = Physics2D.OverlapBox((Vector2)transform.position - Vector2.up, new Vector2(1f, .2f), 0f, LayerMask.GetMask("Map"));
-                if (under != null)
+                if (CanJump)
                 {
                     _rb.AddForce(Vector2.up * _info.JumpForce, ForceMode2D.Impulse);
+                    StartCoroutine(PlayJumpCooldown());
+                }
+                else if (CanWallJumpLeft)
+                {
+                    var dir = new Vector2(2f, 1f).normalized;
+                    _rb.AddForce(Vector2.up * dir.y * _info.JumpForce, ForceMode2D.Impulse);
+                    _externalX = dir.x;
+                    StartCoroutine(PlayJumpCooldown());
+                }
+                else if (CanWallJumpRight)
+                {
+                    var dir = new Vector2(-2f, 1f).normalized;
+                    _rb.AddForce(Vector2.up * dir.y * _info.JumpForce, ForceMode2D.Impulse);
+                    _externalX = dir.x;
                     StartCoroutine(PlayJumpCooldown());
                 }
             }

@@ -8,6 +8,8 @@ namespace PreggoJam.SO
         [Header("Basic Movements")]
         public float Speed;
         public float JumpForce;
+        public float ExternalForce;
+        public float AirtimeControl;
         public float JumpCooldown;
     }
 }
