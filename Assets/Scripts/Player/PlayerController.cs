@@ -3,7 +3,6 @@ using PreggoJam.SO;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.Timeline;
 
 namespace PreggoJam.Player
 {
@@ -98,7 +97,7 @@ namespace PreggoJam.Player
             }
         }
 
-        private void ResetPlayer()
+        public void ResetPlayer()
         {
             transform.position = Vector2.zero;
             _externalX = 0f;

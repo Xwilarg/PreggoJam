@@ -1,4 +1,4 @@
-using System.Collections;
+using PreggoJam.Player;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering;
@@ -28,7 +28,6 @@ namespace PreggoJam.Prop
         private void UpdateCollider()
         {
             List<Vector2> points = new();
-            Vector2? prev = null;
             points.Add(Vector2.zero);
             foreach (var pos in CameraVision())
             {
@@ -55,6 +54,14 @@ namespace PreggoJam.Prop
                 }
             }
             Gizmos.DrawLine(prev.Value, transform.position);
+        }
+
+        private void OnTriggerEnter2D(Collider2D collision)
+        {
+            if (collision.CompareTag("Player"))
+            {
+                collision.GetComponent<PlayerController>().ResetPlayer();
+            }
         }
 
         private IEnumerable<Vector2> CameraVision()
