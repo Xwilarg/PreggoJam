@@ -1,5 +1,8 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering;
+using static UnityEditor.PlayerSettings;
 
 namespace PreggoJam.Prop
 {
@@ -20,25 +23,14 @@ namespace PreggoJam.Prop
             RenderPipelineManager.endCameraRendering -= OnPostRenderCallback;
         }
 
-        private void OnPostRenderCallback(ScriptableRenderContext _, Camera c)
+        private IEnumerable<Vector2> CameraVision()
         {
-            Debug.Log("hello");
-            GL.PushMatrix();
-
-            GL.LoadOrtho();
-
-            _visionMat.SetPass(0);
-
-            Vector2? prevPos = null;
-
             var from = (Vector2)transform.position;
             var localDir = transform.position - transform.right;
             var angleRad = Mathf.Atan2(localDir.y - from.y, localDir.x - from.x);
 
             for (float i = Mathf.PI / 4; i < 3 * Mathf.PI / 4; i += .001f)
             {
-
-                GL.Begin(GL.TRIANGLES); // Performances :thinking:
                 Vector2 pos;
 
 
@@ -57,6 +49,45 @@ namespace PreggoJam.Prop
                     pos = hit.point;
                 }
 
+                yield return pos;
+            }
+        }
+
+        private void OnDrawGizmos()
+        {
+            Gizmos.color = Color.green;
+            Vector2? prev = null;
+            foreach (var pos in CameraVision())
+            {
+                if (prev == null)
+                {
+                    prev = pos;
+                    Gizmos.DrawLine(prev.Value, transform.position);
+                }
+                else
+                {
+                    Gizmos.DrawLine(prev.Value, pos);
+                    prev = pos;
+                }
+            }
+            Gizmos.DrawLine(prev.Value, transform.position);
+        }
+
+        private void OnPostRenderCallback(ScriptableRenderContext _, Camera c)
+        {
+            GL.PushMatrix();
+
+            GL.LoadOrtho();
+
+            _visionMat.SetPass(0);
+
+            Vector2? prevPos = null;
+
+            var from = (Vector2)transform.position;
+            foreach (var pos in CameraVision())
+            {
+                GL.Begin(GL.TRIANGLES); // Performances :thinking:
+
                 if (prevPos != null)
                 {
                     DrawTriangle(from, prevPos.Value, pos);
@@ -64,6 +95,7 @@ namespace PreggoJam.Prop
                 prevPos = pos;
                 GL.End();
             }
+
             GL.PopMatrix();
         }
 
