@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.Rendering;
 using static UnityEditor.PlayerSettings;
@@ -10,7 +11,10 @@ namespace PreggoJam.Prop
     {
         [SerializeField]
         private Material _visionMat;
-
+        [SerializeField]
+        private float _maxCameraRotationDown, _maxCameraRotationUp, _cameraSpeed;
+        [SerializeField]
+        private Ease _cameraEase;
         private Camera _cam;
 
         private void Awake()
@@ -22,7 +26,13 @@ namespace PreggoJam.Prop
         {
             RenderPipelineManager.endCameraRendering -= OnPostRenderCallback;
         }
-
+        private void Start()
+        {
+            Sequence camSeq = DOTween.Sequence();
+            camSeq.Append(transform.DORotate(new Vector3(0, 0, _maxCameraRotationDown), _cameraSpeed).SetEase(_cameraEase));
+            camSeq.Append(transform.DORotate(new Vector3(0, 0, _maxCameraRotationUp), _cameraSpeed).SetEase(_cameraEase));
+            camSeq.SetLoops(-1, LoopType.Yoyo);
+        }
         private IEnumerable<Vector2> CameraVision()
         {
             var from = (Vector2)transform.position;

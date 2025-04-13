@@ -101,3 +101,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _visionMat: {fileID: 2100000, guid: ede70bc2d2f7f1f4a8f99fba643b5bf1, type: 2}
+  _maxCameraRotationDown: 0
+  _maxCameraRotationUp: 100
+  _cameraSpeed: 5
+  _cameraEase: 4
