@@ -33,9 +33,18 @@ namespace PreggoJam.Prop
             Sequence camSeq = DOTween.Sequence();
             camSeq.Append(transform.DORotate(new Vector3(0, 0, _maxCameraRotationDown), _cameraSpeed).SetEase(_cameraEase));
             camSeq.Append(transform.DORotate(new Vector3(0, 0, _maxCameraRotationUp), _cameraSpeed).SetEase(_cameraEase));
-            //camSeq.OnUpdate(() => UpdateCollider());
+            camSeq.OnUpdate(() => UpdateCollider());
             camSeq.SetLoops(-1, LoopType.Yoyo);
         }
+
+        private void OnTriggerEnter2D(Collider2D collision)
+        {
+            if (collision.CompareTag("Player"))
+            {
+                collision.GetComponent<PlayerController>().ResetPlayer();
+            }
+        }
+
         private void UpdateCollider()
         {
             List<Vector2> points = new();
