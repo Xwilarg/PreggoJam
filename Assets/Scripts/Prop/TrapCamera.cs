@@ -14,7 +14,6 @@ namespace PreggoJam.Prop
         private float _maxCameraRotationDown, _maxCameraRotationUp, _cameraSpeed;
         [SerializeField]
         private Ease _cameraEase;
-        private Camera _cam;
         private PolygonCollider2D _coll;
 
         private void Awake()
@@ -31,8 +30,8 @@ namespace PreggoJam.Prop
         private void Start()
         {
             Sequence camSeq = DOTween.Sequence();
-            camSeq.Append(transform.DORotate(new Vector3(0, 0, _maxCameraRotationDown), _cameraSpeed).SetEase(_cameraEase));
-            camSeq.Append(transform.DORotate(new Vector3(0, 0, _maxCameraRotationUp), _cameraSpeed).SetEase(_cameraEase));
+            camSeq.Append(transform.GetChild(0).DORotate(new Vector3(0, 0, _maxCameraRotationDown), _cameraSpeed).SetEase(_cameraEase));
+            camSeq.Append(transform.GetChild(0).DORotate(new Vector3(0, 0, _maxCameraRotationUp), _cameraSpeed).SetEase(_cameraEase));
             camSeq.OnUpdate(() => UpdateCollider());
             camSeq.SetLoops(-1, LoopType.Yoyo);
         }
@@ -45,23 +44,43 @@ namespace PreggoJam.Prop
             }
         }
 
+        private void OnDrawGizmos()
+        {
+            Gizmos.color = Color.green;
+            Vector2? prev = null;
+            foreach (var pos in CameraVision(.01f))
+            {
+                if (prev == null)
+                {
+                    prev = pos;
+                    Gizmos.DrawLine(prev.Value, transform.position);
+                }
+                else
+                {
+                    Gizmos.DrawLine(prev.Value, pos);
+                    prev = pos;
+                }
+            }
+            Gizmos.DrawLine(prev.Value, transform.position);
+        }
+
         private void UpdateCollider()
         {
             List<Vector2> points = new();
             points.Add(Vector2.zero);
-            foreach (var pos in CameraVision())
+            foreach (var pos in CameraVision(.01f))
             {
                 points.Add(pos - (Vector2)transform.position);
             }
             _coll.points = points.ToArray();
         }
-        private IEnumerable<Vector2> CameraVision()
+        private IEnumerable<Vector2> CameraVision(float incr)
         {
             var from = (Vector2)transform.position;
-            var localDir = transform.position - transform.up;
+            var localDir = transform.position - transform.GetChild(0).up;
             var angleRad = Mathf.Atan2(localDir.y - from.y, localDir.x - from.x);
 
-            for (float i = Mathf.PI / 4; i < 3 * Mathf.PI / 4; i += .01f)
+            for (float i = Mathf.PI / 4; i < 3 * Mathf.PI / 4; i += incr)
             {
                 Vector2 pos;
 
@@ -96,7 +115,7 @@ namespace PreggoJam.Prop
             Vector2? prevPos = null;
 
             var from = (Vector2)transform.position;
-            foreach (var pos in CameraVision())
+            foreach (var pos in CameraVision(0.001f))
             {
                 GL.Begin(GL.TRIANGLES); // Performances :thinking:
 
