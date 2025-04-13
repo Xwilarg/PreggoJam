@@ -1,3 +1,4 @@
+using DG.Tweening;
 using PreggoJam.SO;
 using UnityEngine;
 
@@ -32,7 +33,7 @@ namespace PreggoJam.Manager
         public void GrabPotion()
         {
             _potionCaught++;
-            _progressionUI.localScale = new Vector3(_potionCaught / (float)_info.Levels[_levelIndex].ObjectiveCount, 1f, 1f);
+            _progressionUI.DOScaleX(_potionCaught / (float)_info.Levels[_levelIndex].ObjectiveCount, .7f);
         }
 
         public void NextLevel()
