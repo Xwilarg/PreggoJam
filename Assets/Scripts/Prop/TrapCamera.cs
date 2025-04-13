@@ -33,7 +33,18 @@ namespace PreggoJam.Prop
             Sequence camSeq = DOTween.Sequence();
             camSeq.Append(transform.DORotate(new Vector3(0, 0, _maxCameraRotationDown), _cameraSpeed).SetEase(_cameraEase));
             camSeq.Append(transform.DORotate(new Vector3(0, 0, _maxCameraRotationUp), _cameraSpeed).SetEase(_cameraEase));
+            //camSeq.OnUpdate(() => UpdateCollider());
             camSeq.SetLoops(-1, LoopType.Yoyo);
+        }
+        private void UpdateCollider()
+        {
+            List<Vector2> points = new();
+            points.Add(Vector2.zero);
+            foreach (var pos in CameraVision())
+            {
+                points.Add(pos - (Vector2)transform.position);
+            }
+            _coll.points = points.ToArray();
         }
         private IEnumerable<Vector2> CameraVision()
         {
