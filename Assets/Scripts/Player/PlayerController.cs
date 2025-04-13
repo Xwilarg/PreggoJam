@@ -1,3 +1,4 @@
+using DG.Tweening;
 using PreggoJam.Manager;
 using PreggoJam.SO;
 using System.Collections;
@@ -17,7 +18,6 @@ namespace PreggoJam.Player
         private bool _canJump = true;
 
         private float _externalX;
-
         private void Awake()
         {
             _rb = GetComponent<Rigidbody2D>();
@@ -66,6 +66,8 @@ namespace PreggoJam.Player
             if (collision.CompareTag("Potion"))
             {
                 ProgressionManager.Instance.GrabPotion();
+                Tween potionTween = transform.DOPunchScale(new Vector3(0.5f, 0.5f, 0.5f), .3f, 2, 0.1f);
+                if(!potionTween.IsPlaying()) potionTween.Play();
                 Destroy(collision.gameObject);
             }
         }
