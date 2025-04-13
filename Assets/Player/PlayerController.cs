@@ -33,8 +33,8 @@ namespace PreggoJam.Player
             else // Air control
             {
                 var modXDir = _rb.linearVelocity.normalized.x;
-                if (modXDir > 0f) modXDir = 1f;
-                else if (modXDir < 0f) modXDir = -1f;
+                if (modXDir > .1f) modXDir = 1f;
+                else if (modXDir < -.1f) modXDir = -1f;
                 xVel = (_movX * _info.AirtimeControl) + (modXDir * (1 - _info.AirtimeControl));
             }
             _rb.linearVelocity = GameManager.Instance.CanPlay ? new Vector2((xVel + (_externalX * _info.ExternalForce)) * _info.Speed, _rb.linearVelocity.y) : Vector2.up * _rb.linearVelocity.y;
@@ -129,20 +129,20 @@ namespace PreggoJam.Player
                 // Check for floor under player
                 if (CanJump)
                 {
-                    _rb.AddForce(Vector2.up * _info.JumpForce, ForceMode2D.Impulse);
+                    _rb.linearVelocity = Vector2.up * _info.JumpForce;
                     StartCoroutine(PlayJumpCooldown());
                 }
                 else if (CanWallJumpLeft)
                 {
-                    var dir = new Vector2(2f, 1f).normalized;
-                    _rb.AddForce(Vector2.up * dir.y * _info.JumpForce, ForceMode2D.Impulse);
+                    var dir = new Vector2(1f, 1f).normalized * 1.2f;
+                    _rb.linearVelocity = Vector2.up * dir.y * _info.JumpForce;
                     _externalX = dir.x;
                     StartCoroutine(PlayJumpCooldown());
                 }
                 else if (CanWallJumpRight)
                 {
-                    var dir = new Vector2(-2f, 1f).normalized;
-                    _rb.AddForce(Vector2.up * dir.y * _info.JumpForce, ForceMode2D.Impulse);
+                    var dir = new Vector2(-1f, 1f).normalized * 1.2f;
+                    _rb.linearVelocity = Vector2.up * dir.y * _info.JumpForce;
                     _externalX = dir.x;
                     StartCoroutine(PlayJumpCooldown());
                 }
