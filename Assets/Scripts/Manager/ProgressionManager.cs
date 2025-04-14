@@ -18,9 +18,9 @@ namespace PreggoJam.Manager
         private GameObject _warningText;
         public GameObject WarningText => _warningText;
 
-        public bool IsProgressionFull => _potionCaught >= _info.Levels[_levelIndex].ObjectiveCount;
+        public bool IsProgressionFull => _potionCaught >= _info.Levels[LevelIndex].ObjectiveCount;
 
-        private int _levelIndex;
+        public int LevelIndex { private set; get; }
         private int _potionCaught;
 
         private void Awake()
@@ -33,12 +33,12 @@ namespace PreggoJam.Manager
         public void GrabPotion()
         {
             _potionCaught++;
-            _progressionUI.DOScaleX(_potionCaught / (float)_info.Levels[_levelIndex].ObjectiveCount, .7f);
+            _progressionUI.DOScaleX(_potionCaught / (float)_info.Levels[LevelIndex].ObjectiveCount, .7f);
         }
 
         public void NextLevel()
         {
-            _levelIndex++;
+            LevelIndex++;
             _potionCaught = 0;
             _progressionUI.localScale = new Vector3(0f, 1f, 1f);
         }

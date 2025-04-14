@@ -106,6 +106,8 @@ namespace PreggoJam.Prop
 
         private void OnPostRenderCallback(ScriptableRenderContext _, Camera c)
         {
+            if (!gameObject.activeInHierarchy) return;
+
             GL.PushMatrix();
 
             GL.LoadOrtho();

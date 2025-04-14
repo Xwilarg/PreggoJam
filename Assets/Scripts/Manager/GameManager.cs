@@ -53,9 +53,9 @@ namespace PreggoJam.Manager
         private IEnumerator ReloadMapInternal()
         {
             yield return SceneManager.UnloadSceneAsync("Map");
+            ProgressionManager.Instance.NextLevel();
             yield return SceneManager.LoadSceneAsync("Map", LoadSceneMode.Additive);
             CanPlay = true;
-            ProgressionManager.Instance.NextLevel();
         }
     }
 }

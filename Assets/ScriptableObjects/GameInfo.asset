@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: GameInfo
   m_EditorClassIdentifier: 
   Levels:
+  - ObjectiveCount: 3
   - ObjectiveCount: 5
-  - ObjectiveCount: 7
