@@ -11,7 +11,7 @@ namespace PreggoJam.Manager
             {
                 if (ProgressionManager.Instance.LevelIndex < lr.TargetRequirement)
                 {
-                    lr.gameObject.SetActive(false);
+                    lr.GetComponent<IActivable>().Toggle(false);
                 }
             }
         }

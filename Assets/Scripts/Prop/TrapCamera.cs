@@ -6,7 +6,7 @@ using UnityEngine.Rendering;
 
 namespace PreggoJam.Prop
 {
-    public class TrapCamera : MonoBehaviour
+    public class TrapCamera : MonoBehaviour, IActivable
     {
         [SerializeField]
         private Material _visionMat;
@@ -42,6 +42,11 @@ namespace PreggoJam.Prop
             {
                 collision.GetComponent<PlayerController>().ResetPlayer();
             }
+        }
+
+        public void Toggle(bool value)
+        {
+            _coll.enabled = value;
         }
 
         private void OnDrawGizmos()
@@ -106,7 +111,7 @@ namespace PreggoJam.Prop
 
         private void OnPostRenderCallback(ScriptableRenderContext _, Camera c)
         {
-            if (!gameObject.activeInHierarchy) return;
+            if (!_coll.enabled) return;
 
             GL.PushMatrix();
 
