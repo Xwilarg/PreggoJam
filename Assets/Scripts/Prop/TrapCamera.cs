@@ -11,7 +11,7 @@ namespace PreggoJam.Prop
         [SerializeField]
         private Material _visionMat;
         [SerializeField]
-        private float _maxCameraRotationDown, _maxCameraRotationUp, _cameraSpeed;
+        private float _maxCameraRotation, _cameraSpeed;
         [SerializeField]
         private Ease _cameraEase;
         private PolygonCollider2D _coll;
@@ -29,9 +29,9 @@ namespace PreggoJam.Prop
         }
         private void Start()
         {
+            transform.Rotate(0f, 0f, -_maxCameraRotation / 2f);
             Sequence camSeq = DOTween.Sequence();
-            camSeq.Append(transform.GetChild(0).DORotate(new Vector3(0, 0, _maxCameraRotationDown), _cameraSpeed).SetEase(_cameraEase));
-            camSeq.Append(transform.GetChild(0).DORotate(new Vector3(0, 0, _maxCameraRotationUp), _cameraSpeed).SetEase(_cameraEase));
+            camSeq.Append(transform.GetChild(0).DORotate(new Vector3(0, 0, _maxCameraRotation / 2f), _cameraSpeed).SetEase(_cameraEase));
             camSeq.OnUpdate(() => UpdateCollider());
             camSeq.SetLoops(-1, LoopType.Yoyo);
         }
