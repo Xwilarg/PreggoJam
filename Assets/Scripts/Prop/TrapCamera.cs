@@ -34,6 +34,7 @@ namespace PreggoJam.Prop
         }
         private void Start()
         {
+            _renderer.Rotate(0f, 0f, -_maxCameraRotation / 2f);
             Sequence camSeq = DOTween.Sequence();
             camSeq.Append(_renderer.DORotate(new Vector3(0, 0, _maxCameraRotation / 2f), _cameraSpeed).SetEase(_cameraEase));
             camSeq.OnUpdate(() => UpdateCollider());
