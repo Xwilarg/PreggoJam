@@ -20,6 +20,8 @@ namespace PreggoJam.Manager
         private CinemachineCamera _cam;
         private CinemachinePositionComposer _camComp;
 
+        private float _baseZoom;
+
         private void Awake()
         {
             Instance = this;
@@ -30,6 +32,8 @@ namespace PreggoJam.Manager
             {
                 SceneManager.LoadScene("Map", LoadSceneMode.Additive);
             }
+
+            _baseZoom = _cam.Lens.OrthographicSize;
         }
 
         private bool _canPlay = true;
@@ -42,6 +46,7 @@ namespace PreggoJam.Manager
                 _cam.Target.TrackingTarget = _canPlay ? _playerTransform : _houseTransform;
                 _camComp.Composition.DeadZone.Enabled = value;
                 _homeUI.SetActive(!value);
+                _cam.Lens.OrthographicSize = _canPlay ? _baseZoom : 3f;
             }
             get => _canPlay;
         }
