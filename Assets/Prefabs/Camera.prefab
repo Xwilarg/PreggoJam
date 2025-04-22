@@ -48,8 +48,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _visionMat: {fileID: 2100000, guid: ede70bc2d2f7f1f4a8f99fba643b5bf1, type: 2}
-  _maxCameraRotationDown: -50
-  _maxCameraRotationUp: 50
+  _maxCameraRotation: 90
   _cameraSpeed: 5
   _cameraEase: 7
 --- !u!60 &2851909045198279036
@@ -115,7 +114,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8ed095424ab53b44a0adc95bf36828d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _targetRequirement: 0
+  _targetRequirement: 1
 --- !u!1 &8483758525565338747
 GameObject:
   m_ObjectHideFlags: 0

@@ -9,10 +9,7 @@ namespace PreggoJam.Manager
         {
             foreach (var lr in FindObjectsByType<LevelRequirement>(FindObjectsSortMode.None))
             {
-                if (ProgressionManager.Instance.LevelIndex < lr.TargetRequirement)
-                {
-                    lr.GetComponent<IActivable>().Toggle(false);
-                }
+                lr.GetComponent<IActivable>().Toggle(ProgressionManager.Instance.LevelIndex >= lr.TargetRequirement);
             }
         }
     }
