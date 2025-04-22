@@ -16,10 +16,15 @@ namespace PreggoJam.Prop
         private Ease _cameraEase;
         private PolygonCollider2D _coll;
 
+        private Transform _renderer;
+
         private void Awake()
         {
             RenderPipelineManager.endCameraRendering += OnPostRenderCallback;
             _coll = GetComponent<PolygonCollider2D>();
+
+            _renderer = transform.GetChild(0).transform;
+
             UpdateCollider();
         }
 
@@ -29,9 +34,8 @@ namespace PreggoJam.Prop
         }
         private void Start()
         {
-            transform.Rotate(0f, 0f, -_maxCameraRotation / 2f);
             Sequence camSeq = DOTween.Sequence();
-            camSeq.Append(transform.GetChild(0).DORotate(new Vector3(0, 0, _maxCameraRotation / 2f), _cameraSpeed).SetEase(_cameraEase));
+            camSeq.Append(_renderer.DORotate(new Vector3(0, 0, _maxCameraRotation / 2f), _cameraSpeed).SetEase(_cameraEase));
             camSeq.OnUpdate(() => UpdateCollider());
             camSeq.SetLoops(-1, LoopType.Yoyo);
         }

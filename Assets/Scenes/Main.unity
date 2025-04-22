@@ -1150,6 +1150,23 @@ MonoBehaviour:
   _info: {fileID: 11400000, guid: dcedffa0707360c408ecf28b2ef26576, type: 2}
   _progressionUI: {fileID: 1320464166}
   _warningText: {fileID: 1417511089}
+  _bellySprites:
+  - {fileID: 21300000, guid: 6e0bb361f3b00cd41abd3689898cab44, type: 3}
+  - {fileID: 21300000, guid: fb792c1c73810e34595805d09a7dc844, type: 3}
+  - {fileID: 21300000, guid: 9073e337c5cfc444ca726b6d190286c2, type: 3}
+  - {fileID: 21300000, guid: 7678b26ccd85c7e4c95098894a6e3209, type: 3}
+  - {fileID: 21300000, guid: 7870b1d0d785dbb4bb6ff6a8995db597, type: 3}
+  - {fileID: 21300000, guid: a58d3cd2643714447b62ad41de885e29, type: 3}
+  - {fileID: 21300000, guid: 6ee7f4a611952cd4c95033755b8de1f8, type: 3}
+  - {fileID: 21300000, guid: e0160c5f7f1b0474aa2bb70f2a861ccb, type: 3}
+  - {fileID: 21300000, guid: f06a6c175bcf1a64d801dda2cea6e78c, type: 3}
+  - {fileID: 21300000, guid: 01e0c83b53f07e942bcadac11c4d8fee, type: 3}
+  - {fileID: 21300000, guid: 42d2f8891c48b9d449a483ed56b539bc, type: 3}
+  - {fileID: 21300000, guid: 206160cd40fd06b4da7d7c58bafbbb33, type: 3}
+  - {fileID: 21300000, guid: bfa3a61e602129b44b8737ccd50f6627, type: 3}
+  - {fileID: 21300000, guid: 6e6ac4b4588881942873654d4866964a, type: 3}
+  - {fileID: 21300000, guid: b295b8cd6fb343849889ff588a24fd49, type: 3}
+  _bellySR: {fileID: 1020443838}
 --- !u!114 &1022761884
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1163,7 +1180,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _playerTransform: {fileID: 669540512}
-  _houseTransform: {fileID: 944175185}
+  _houseTransform: {fileID: 987184265}
   _homeUI: {fileID: 490820557}
   _cam: {fileID: 1513091942}
 --- !u!1 &1275639484

@@ -1,5 +1,6 @@
 using DG.Tweening;
 using PreggoJam.SO;
+using System.Collections;
 using UnityEngine;
 
 namespace PreggoJam.Manager
@@ -18,10 +19,18 @@ namespace PreggoJam.Manager
         private GameObject _warningText;
         public GameObject WarningText => _warningText;
 
+        [SerializeField]
+        private Sprite[] _bellySprites;
+
+        [SerializeField]
+        private SpriteRenderer _bellySR;
+
         public bool IsProgressionFull => _potionCaught >= _info.Levels[LevelIndex].ObjectiveCount;
 
         public int LevelIndex { private set; get; }
         private int _potionCaught;
+
+        private int _bellyIndex;
 
         private void Awake()
         {
@@ -41,6 +50,21 @@ namespace PreggoJam.Manager
             LevelIndex++;
             _potionCaught = 0;
             _progressionUI.localScale = new Vector3(0f, 1f, 1f);
+        }
+
+        public void UpdateBelly()
+        {
+            float bellyTarget = (LevelIndex + 1) * _bellySprites.Length / (float)_info.Levels.Length;
+            StartCoroutine(UpdateTo(Mathf.FloorToInt(bellyTarget)));
+        }
+
+        private IEnumerator UpdateTo(int max)
+        {
+            for (; _bellyIndex < max; _bellyIndex++)
+            {
+                _bellySR.sprite = _bellySprites[_bellyIndex];
+                yield return new WaitForSeconds(.5f);
+            }
         }
     }
 }

@@ -52,7 +52,7 @@ namespace PreggoJam.Player
         private void OnDrawGizmos()
         {
             // Debug jump box
-            Gizmos.color = CanJump ? Color.blue : Color.red; Gizmos.DrawWireCube(transform.position - Vector3.up, new Vector3(.75f, .2f, 1f));
+            Gizmos.color = CanJump ? Color.blue : Color.red; Gizmos.DrawWireCube(transform.position - Vector3.up, new Vector3(.75f, .3f, 1f));
             Gizmos.color = CanWallJumpLeft ? Color.blue : Color.red; Gizmos.DrawWireCube(transform.position + Vector3.right * -.5f, new Vector3(.2f, .75f, 1f));
             Gizmos.color = CanWallJumpRight ? Color.blue : Color.red; Gizmos.DrawWireCube(transform.position + Vector3.right * .5f, new Vector3(.2f, .75f, 1f));
 
@@ -79,6 +79,7 @@ namespace PreggoJam.Player
                 {
                     ResetPlayer();
                     GameManager.Instance.CanPlay = false;
+                    ProgressionManager.Instance.UpdateBelly();
                 }
                 else
                 {
@@ -105,7 +106,7 @@ namespace PreggoJam.Player
             _externalX = 0f;
         }
 
-        private bool CanJump => Physics2D.OverlapBox((Vector2)transform.position - Vector2.up, new Vector2(.75f, .2f), 0f, LayerMask.GetMask("Map")) != null;
+        private bool CanJump => Physics2D.OverlapBox((Vector2)transform.position - Vector2.up, new Vector2(.75f, .3f), 0f, LayerMask.GetMask("Map")) != null;
         private bool CanWallJumpLeft => Physics2D.OverlapBox((Vector2)transform.position - Vector2.right * .5f, new Vector3(.2f, .75f, 1f), 0f, LayerMask.GetMask("Map")) != null;
         private bool CanWallJumpRight => Physics2D.OverlapBox((Vector2)transform.position + Vector2.right * .5f, new Vector3(.2f, .75f, 1f), 0f, LayerMask.GetMask("Map")) != null;
 
