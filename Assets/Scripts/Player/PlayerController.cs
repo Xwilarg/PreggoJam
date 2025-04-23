@@ -43,7 +43,7 @@ namespace PreggoJam.Player
         {
             if (transform.position.y < -10f)
             {
-                ResetPlayer();
+                LooseHealth();
             }
             if (_externalX > 0f) _externalX = Mathf.Clamp(_externalX - Time.deltaTime / 2f, 0f, _externalX);
             else _externalX = Mathf.Clamp(_externalX + Time.deltaTime / 2f, _externalX, 0f);
@@ -98,6 +98,11 @@ namespace PreggoJam.Player
             {
                 ProgressionManager.Instance.WarningText.SetActive(false);
             }
+        }
+
+        public void LooseHealth()
+        {
+            ResetPlayer();
         }
 
         public void ResetPlayer()

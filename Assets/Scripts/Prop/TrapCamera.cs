@@ -45,7 +45,7 @@ namespace PreggoJam.Prop
         {
             if (collision.CompareTag("Player"))
             {
-                collision.GetComponent<PlayerController>().ResetPlayer();
+                collision.GetComponent<PlayerController>().LooseHealth();
             }
         }
 
