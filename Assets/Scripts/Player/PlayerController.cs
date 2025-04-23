@@ -145,14 +145,14 @@ namespace PreggoJam.Player
                 }
                 else if (CanWallJumpLeft)
                 {
-                    var dir = new Vector2(1f, 1f).normalized * 1.2f;
+                    var dir = new Vector2(1f, 2f).normalized * 1.2f;
                     _rb.linearVelocity = Vector2.up * dir.y * _info.JumpForce;
                     _externalX = dir.x;
                     StartCoroutine(PlayJumpCooldown());
                 }
                 else if (CanWallJumpRight)
                 {
-                    var dir = new Vector2(-1f, 1f).normalized * 1.2f;
+                    var dir = new Vector2(-1f, 2f).normalized * 1.2f;
                     _rb.linearVelocity = Vector2.up * dir.y * _info.JumpForce;
                     _externalX = dir.x;
                     StartCoroutine(PlayJumpCooldown());
