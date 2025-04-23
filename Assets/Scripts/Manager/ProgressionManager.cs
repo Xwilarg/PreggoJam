@@ -1,6 +1,7 @@
 using DG.Tweening;
 using PreggoJam.SO;
 using System.Collections;
+using System.Linq;
 using UnityEngine;
 
 namespace PreggoJam.Manager
@@ -54,7 +55,7 @@ namespace PreggoJam.Manager
 
         public void UpdateBelly()
         {
-            float bellyTarget = (LevelIndex + 1) * _bellySprites.Length / (float)_info.Levels.Length;
+            float bellyTarget = _potionCaught * _bellySprites.Length / (float)_info.Levels.Sum(x => x.ObjectiveCount);
             StartCoroutine(UpdateTo(Mathf.FloorToInt(bellyTarget)));
         }
 

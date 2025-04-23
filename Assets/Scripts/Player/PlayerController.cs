@@ -103,6 +103,10 @@ namespace PreggoJam.Player
         public void LooseHealth()
         {
             ResetPlayer();
+
+            // Out of health
+            GameManager.Instance.CanPlay = false;
+            ProgressionManager.Instance.UpdateBelly();
         }
 
         public void ResetPlayer()
